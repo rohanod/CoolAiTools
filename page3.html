@@ -85,44 +85,4 @@
         <!-- Add more page links as needed -->
     </div>
 </body>
-<style>
-    /* Light mode */
-    body.light-mode {
-        background-color: #f2e1b1;
-        color: black;
-    }
-
-    /* Dark mode */
-    body.dark-mode {
-        background-color: #333;
-        color: white;
-    }
-
-    /* Switch styles */
-    .mode-switch {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        cursor: pointer;
-        font-size: 18px;
-    }
-
-    .mode-switch:hover {
-        text-decoration: underline;
-    }
-</style>
-</head>
-<body class="light-mode">
-<!-- Your existing content goes here -->
-
-<!-- Mode switch -->
-<div class="mode-switch" onclick="toggleMode()">Toggle Mode</div>
-
-<script>
-    function toggleMode() {
-        const body = document.body;
-        body.classList.toggle('light-mode');
-        body.classList.toggle('dark-mode');
-    }
-</script>
 </html>
