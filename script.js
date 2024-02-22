@@ -1,43 +1,59 @@
-[
-    {"title": "Fast SDXL", "url": "https://openskyml-fast-sdxl-stable-diffusion-xl.hf.space/"},
-    {"title": "Google Fast SDXL", "url": "https://google-sdxl.hf.space/"},
-    {"title": "MusicGen", "url": "https://facebook-musicgen.hf.space/"},
-    {"title": "Illusion Diffusion", "url": "https://ap123-illusiondiffusion.hf.space/"},
-    {"title": "XTTS Voice Cloning", "url": "https://coqui-xtts.hf.space"},
-    {"title": "Style TTS", "url": "https://styletts2-styletts2.hf.space/"},
-    {"title": "PixArt-a", "url": "https://pixart-alpha-pixart-alpha.hf.space/"},
-    {"title": "Text to Image Story Teller", "url": "https://tonyassi-text-to-image-story-teller.hf.space/"},
-    {"title": "DALL.E 3 XL", "url": "https://cyranicus-dalle-3-xl.hf.space/"},
-    {"title": "Mario GPT", "url": "https://multimodalart-mariogpt.hf.space/"},
-    {"title": "Guess the Image: which one is the good one?", "url": "https://enzostvs-guess-the-image.hf.space/"},
-    {"title": "UnlimitedMusicGen", "url": "https://surn-unlimitedmusicgen.hf.space/"},
-    {"title": "Versatile Diffusion", "url": "https://shi-labs-versatile-diffusion.hf.space"},
-    {"title": "Dreamlike Diffusion 1.0", "url": "https://phenomenon1981-dreamlikeart-diffusion-1-0.hf.space"},
-    {"title": "AI Webscraper", "url": "https://cognitivelabs-gpt-auto-webscraping.hf.space"},
-    {"title": "Ip Checker", "url": "https://radames-gradio-request-get-client-ip.hf.space"},
-    {"title": "De-Identifier", "url": "https://presidio-presidio-demo.hf.space"},
-    {"title": "Captcha Reader", "url": "https://docparser-text-captcha-breaker.hf.space"},
-    {"title": "Stable Diffusion prompts", "url": "https://gustproof-sd-prompts.hf.space"},
-    {"title": "SD Models", "url": "https://allknowingroger-image-models-test174.hf.space"},
-    {"title": "Comic Maker", "url": "https://aigorithm-aicomicsbook.hf.space"},
-    {"title": "SDXL in 4 steps with Latent Consistency LoRAs", "url": "https://latent-consistency-lcm-lora-for-sdxl.hf.space"},
-    {"title": "Doodly - T2I-Adapter-SDXL Sketch", "url": "https://tencentarc-t2i-adapter-sdxl-sketch.hf.space"},
-    {"title": "Image Cartoonizer", "url": "https://sayakpaul-cartoonizer-demo-onnx.hf.space"},
-    {"title": "Syntactic Tree Generator", "url": "https://nanom-syntactic-tree.hf.space"},
-    {"title": "Sheet Music Generator", "url": "https://visakh7843-sheet-music-generator.hf.space"},
-    {"title": "Monster Generator", "url": "https://gstaff-monstergenv2.hf.space"},
-    {"title": "Whisper STT", "url": "https://choimirai-whisper-large-v3.hf.space"},
-    {"title": "Youtube Video Summarizer", "url": "https://smakamali-summarize-youtube.hf.space"},
-    {"title": "Shape-E", "url": "https://hysts-shap-e.hf.space"},
-    {"title": "Midi Composer", "url": "https://skytnt-midi-composer.hf.space"},
-    {"title": "Karlo - unCLIP model by KakaoBrain", "url": "https://kakaobrain-karlo.hf.space"},
-    {"title": "Human Motion Animation", "url": "https://vumichien-generate-human-motion.hf.space"},
-    {"title": "Minecraft Skin Diffusion", "url": "https://wine-ineff-minecraftskin-diffusion.hf.space"},
-    {"title": "PixArt-LCM 1024px", "url": "https://pixart-alpha-pixart-lcm.hf.space"},
-    {"title": "Real-Time Stable Diffusion", "url": "https://radames-real-time-sd-turbo.hf.space"},
-    {"title": "suno-bark", "url": "https://suno-bark.hf.space"},
-    {"title": "Bedtime story Generator", "url": "https://jbilcke-hf-ai-bedtime-story.hf.space"},
-    {"title": "Realtime Sketch Diffusion", "url": "https://fal-ai-realtime-stable-diffusion-local.hf.space"},
-    {"title": "Top 663 Blitz Diffusion Models", "url": "https://yntec-printingpress.hf.space"},
-    {"title": "Real-Time text diffusion", "url": "https://shizuku-ai-streamdiffusion-realtime-txt2img.hf.space"}
-]
+const searchBars = document.querySelectorAll('.search-bar');
+
+searchBars.forEach(searchBar => {
+    searchBar.addEventListener('input', (event) => {
+        const searchTerm = event.target.value.toLowerCase().trim(); // Improved: adds .trim()
+
+        if (searchTerm === '') {
+            clearSearchResults(); // Clear previous results
+            return; // Stop if empty search
+        }
+
+        updateSearchResults(searchTerm);
+    });
+});
+
+function updateSearchResults(searchTerm) {
+    const resultsContainer = document.getElementById('search-results'); 
+    resultsContainer.innerHTML = '<p>Loading results...</p>'; // Indicate loading
+
+    fetch('all_links.json') 
+        .then(response => response.json())
+        .then(linksData => {
+            renderSearchResults(linksData, searchTerm, resultsContainer);
+        })
+        .catch(error => {
+            resultsContainer.innerHTML = '<p>Error fetching data. Try again later.</p>';
+            console.error('Error fetching data:', error); 
+        });
+}
+
+function renderSearchResults(linksData, searchTerm, resultsContainer) {
+    const filteredLinks = linksData.filter(link => 
+        link.title.toLowerCase().includes(searchTerm)
+    );
+
+    resultsContainer.innerHTML = ''; // Clear previous state
+
+    if (filteredLinks.length === 0) {
+        resultsContainer.textContent = 'No results found.';
+    } else {
+        const resultsList = document.createElement('ul');
+
+        filteredLinks.forEach(link => {
+            const listItem = document.createElement('li');
+            const linkElement = document.createElement('a');
+            linkElement.textContent = link.title;
+            linkElement.href = link.url;
+            listItem.appendChild(linkElement);
+            resultsList.appendChild(listItem);                    
+        });
+
+        resultsContainer.appendChild(resultsList);
+    }
+}
+
+function clearSearchResults() {
+    const resultsContainer = document.getElementById('search-results'); 
+    resultsContainer.innerHTML = '';
+}
