@@ -2,12 +2,26 @@ const searchBars = document.querySelectorAll('.search-bar'); // Target all searc
 
 searchBars.forEach(searchBar => {
     searchBar.addEventListener('keyup', (event) => {
-        if (event.key === 'Enter') { // Check if the Enter key was pressed
+        if (event.key === 'Enter') { 
             const searchTerm = event.target.value.toLowerCase();
+            let currentPage = 1; 
 
-            // Redirect to search page with results
-            const queryParams = new URLSearchParams({ q: searchTerm });
-            window.location.href = 'search.html?' + queryParams.toString();
+            // Get the current page number (if present)
+            const queryParams = new URLSearchParams(window.location.search);
+            const pageParam = queryParams.get('p');
+            if (pageParam) {
+                currentPage = parseInt(pageParam); 
+            }
+
+            // Redirect, either keeping or removing the query depending on if search input is empty
+            if (searchTerm) {
+                const queryParams = new URLSearchParams({ q: searchTerm, p: currentPage });
+                window.location.href = 'search.html?' + queryParams.toString();
+            } else {
+                // No search term, redirect to the specified page only
+                const queryParams = new URLSearchParams({ p: currentPage });
+                window.location.href = 'search.html?' + queryParams.toString();
+            }
         }
     });
 });
@@ -20,13 +34,11 @@ const resultsContainer = document.getElementById('search-results');
 fetch('all_links.json') 
     .then(response => response.json())
     .then(linksData => {
-
-        // Get search term from URL 
         const queryParams = new URLSearchParams(window.location.search);
         const searchTerm = queryParams.get('q');
 
         if (searchTerm) {
-            searchBar.value = searchTerm; // Pre-fill search bar
+            searchBar.value = searchTerm; 
 
             const filteredLinks = linksData.filter(link => 
                 link.title.toLowerCase().includes(searchTerm.toLowerCase())
