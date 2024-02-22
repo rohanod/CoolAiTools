@@ -85,3 +85,6 @@ a:not(.div1):hover {
     border-radius: 6px;
     margin-bottom: 15px;
 }
+#search-results ul {
+    list-style-type: none; /* Removes bullet points */
+}
