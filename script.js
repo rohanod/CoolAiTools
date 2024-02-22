@@ -14,26 +14,32 @@ fetch('all_links.json')
             const isOnSearchPage = currentPage === 'search.html';
 
             if (searchTerm === '') {
-                // Redirect to the previous list page if on a search page
+                // Redirect to the correct previous page
                 if (isOnSearchPage) {
-                    const currentIndex = listPages.indexOf(currentPage);
-                    const prevIndex = (currentIndex - 1 + listPages.length) % listPages.length; 
-                    const prevListPage = listPages[prevIndex]; 
-                    window.location.href = prevListPage; 
+                    // If on search.html, redirect to the last list page visited
+                    const lastVisitedListPage = localStorage.getItem('lastListPage') || 'index.html'; // Default to index.html
+                    window.location.href = lastVisitedListPage;
                 } else {
                     // Go back in browser history from a non-search page
                     window.history.back(); 
                 }
             } else {
+                // Update the URL with the search term
                 const queryParams = new URLSearchParams({ q: searchTerm });
+                const newURL = `${window.location.origin}${window.location.pathname}?${queryParams.toString()}`;
+                window.history.pushState({}, '', newURL); 
 
+                // Store the current page as the 'last visited' before search
+                localStorage.setItem('lastListPage', currentPage); 
+
+                // Logic to fetch/display results and handle redirection
                 if (isOnSearchPage) {
                     // Update results on search.html
                     resultsContainer.innerHTML = ''; // Clear old results
 
                     // Fetch and display results on 'search.html'
                     const filteredLinks = allLinks.filter(link => 
-                        link.title.toLowerCase().includes(searchTerm.toLowerCase()) // Make search case-insensitive
+                        link.title.toLowerCase().includes(searchTerm.toLowerCase()) 
                     );
 
                     if (filteredLinks.length === 0) {
@@ -48,10 +54,10 @@ fetch('all_links.json')
                     }
 
                 } else {
-                    // Redirect to search.html with search term (after 1-second delay)
+                    // Redirect to search.html with search term (after 2-second delay)
                     setTimeout(() => {
                         window.location.href = `search.html?${queryParams.toString()}`;
-                    }, 1000); 
+                    }, 2000); 
                 }
             }
         }
