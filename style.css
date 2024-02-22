@@ -1,56 +1,71 @@
+/* ------- General Styles ------ */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f2e1b1;
+    font-family: 'Arial', sans-serif; 
+    background-color: #f2e1b1; /* Light beige background */
     text-align: center;
     padding: 20px;
     margin: 0;
 }
 
 header {
-    background-color: #c798ea; 
+    background-color: #c798ea; /* Dark purple header color */
     color: white;
     padding: 15px;
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-#search-bar {
-    width: 50%;
-    padding: 12px;
+footer { 
+    background-color: #c798ea; /* Match the header */
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed; /* Optionally fix footer to bottom */
+    bottom: 0;
+    width: 100%;
+}
+
+/* ------- Link Styles -------- */
+a { 
+    text-decoration: none; /* Remove default underlines */
+}
+
+a:is(.div1) { /* Your special class for certain links */
+    background-color: #c798ea; 
+    border: #42ccff;
+    color: #ffffff;
+    padding: 15px 32px;
+    text-decoration: underline;
+    display: inline-block;
     font-size: 16px;
-    border: 2px solid #c798ea;
-    border-radius: 6px;
-    margin-bottom: 15px;
 }
 
-#search-results {
-    margin-bottom: 20px; 
-}
-
-#search-results a {
+a:not(.div1) { /* Your general link style */
     display: block;
     margin-bottom: 10px;
-    padding: 12px;
-    background-color: #8cc84b; 
+    padding: 10px;
+    background-color: #8cc84b;
     color: white;
     border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s; 
+    font-size: 16px;
+    transition: background-color 0.7s;
 }
 
-#search-results a:hover {
+a:not(.div1):hover {
     background-color: #4d94ff; 
 }
 
+/* ------ Pagination ------- */
 .pagination {
     display: flex;
     justify-content: center;
+    margin-top: 20px;
 }
 
 .pagination a {
     display: inline-block;
-    padding: 8px 12px;
-    background-color: #4CAF50;
+    padding: 8px 16px;
+    background-color: #4CAF50; 
     color: white;
     border-radius: 5px;
     margin: 0 5px;
@@ -59,4 +74,14 @@ header {
 
 .pagination a:hover {
     background-color: #45a049; 
+}
+
+/* ------ Search Bar (For search.html) -------- */
+#search-bar {
+    width: 50%;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #c798ea;
+    border-radius: 6px;
+    margin-bottom: 15px;
 }

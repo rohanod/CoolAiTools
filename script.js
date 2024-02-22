@@ -1,4 +1,4 @@
-const searchBars = document.querySelectorAll('.search-bar'); // Target all search bars
+const searchBars = document.querySelectorAll('.search-bar'); 
 
 searchBars.forEach(searchBar => {
     searchBar.addEventListener('keyup', (event) => {
@@ -13,20 +13,19 @@ searchBars.forEach(searchBar => {
                 currentPage = parseInt(pageParam); 
             }
 
-            // Redirect, either keeping or removing the query depending on if search input is empty
             if (searchTerm) {
+                // Search with the term
                 const queryParams = new URLSearchParams({ q: searchTerm, p: currentPage });
                 window.location.href = 'search.html?' + queryParams.toString();
             } else {
-                // No search term, redirect to the specified page only
-                const queryParams = new URLSearchParams({ p: currentPage });
-                window.location.href = 'search.html?' + queryParams.toString();
+                // Go back to previous page
+                window.history.back();
             }
         }
     });
 });
 
-// Code for search.html (or include within script.js if on all pages)
+// Code for search.html (Since the script is on all pages, this part becomes relevant everywhere)
 const searchBar = document.getElementById('search-bar');
 const resultsContainer = document.getElementById('search-results');
 
@@ -49,7 +48,7 @@ fetch('all_links.json')
             } else {
                 // Create an unordered list without bullet points
                 const resultsList = document.createElement('ul'); 
-                resultsList.style.listStyleType = 'none'; // Remove bullet points
+                resultsList.style.listStyleType = 'none'; 
 
                 filteredLinks.forEach(link => {
                     const listItem = document.createElement('li');
@@ -60,6 +59,8 @@ fetch('all_links.json')
                     resultsList.appendChild(listItem);                    
                 });
                 resultsContainer.appendChild(resultsList);
+
+                // ... (Add your pagination generation code here) ...
             } 
         }
     });
