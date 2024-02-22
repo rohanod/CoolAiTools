@@ -35,7 +35,10 @@ fetch('all_links.json')
             if (filteredLinks.length === 0) {
                 resultsContainer.textContent = 'No results found.';
             } else {
+                // Create an unordered list without bullet points
                 const resultsList = document.createElement('ul'); 
+                resultsList.style.listStyleType = 'none'; // Remove bullet points
+
                 filteredLinks.forEach(link => {
                     const listItem = document.createElement('li');
                     const linkElement = document.createElement('a');
