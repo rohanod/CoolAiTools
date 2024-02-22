@@ -11,3 +11,40 @@ searchBars.forEach(searchBar => {
         }
     });
 });
+
+// Code for search.html (or include within script.js if on all pages)
+const searchBar = document.getElementById('search-bar');
+const resultsContainer = document.getElementById('search-results');
+
+// Fetch links data
+fetch('all_links.json') 
+    .then(response => response.json())
+    .then(linksData => {
+
+        // Get search term from URL 
+        const queryParams = new URLSearchParams(window.location.search);
+        const searchTerm = queryParams.get('q');
+
+        if (searchTerm) {
+            searchBar.value = searchTerm; // Pre-fill search bar
+
+            const filteredLinks = linksData.filter(link => 
+                link.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            if (filteredLinks.length === 0) {
+                resultsContainer.textContent = 'No results found.';
+            } else {
+                const resultsList = document.createElement('ul'); 
+                filteredLinks.forEach(link => {
+                    const listItem = document.createElement('li');
+                    const linkElement = document.createElement('a');
+                    linkElement.textContent = link.title;
+                    linkElement.href = link.url;
+                    listItem.appendChild(linkElement);
+                    resultsList.appendChild(listItem);                    
+                });
+                resultsContainer.appendChild(resultsList);
+            } 
+        }
+    });
