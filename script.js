@@ -30,15 +30,11 @@ fetch('all_links.json')
                 if (isOnSearchPage) {
                     // Update results on search.html
                     resultsContainer.innerHTML = ''; // Clear old results
-                   // ... (Your code to fetch and display results on 'search.html') ... 
-                    const queryParams = new URLSearchParams(window.location.search);
-                    const searchTerm = queryParams.get('q').toLowerCase(); 
 
+                    // Fetch and display results on 'search.html'
                     const filteredLinks = allLinks.filter(link => 
-                        link.title.toLowerCase().includes(searchTerm)
+                        link.title.toLowerCase().includes(searchTerm.toLowerCase()) // Make search case-insensitive
                     );
-
-                    resultsContainer.innerHTML = ''; // Clear old results
 
                     if (filteredLinks.length === 0) {
                         resultsContainer.textContent = 'No results found.';
@@ -52,8 +48,10 @@ fetch('all_links.json')
                     }
 
                 } else {
-                    // Redirect to search.html with search term
-                    window.location.href = `search.html?${queryParams.toString()}`;
+                    // Redirect to search.html with search term (after 2-second delay)
+                    setTimeout(() => {
+                        window.location.href = `search.html?${queryParams.toString()}`;
+                    }, 2000); 
                 }
             }
         }
@@ -61,7 +59,7 @@ fetch('all_links.json')
         // Event listener for search bar input
         searchBars.forEach(searchBar => {
             searchBar.addEventListener('input', (event) => {
-                const searchTerm = event.target.value.toLowerCase(); 
+                const searchTerm = event.target.value; 
                 updateSearchResults(searchTerm); 
             });
         });
@@ -82,5 +80,5 @@ fetch('all_links.json')
     })
     .catch(error => {
         console.error('Error fetching data:', error);
-        // Handle error, e.g., display an error message
+        // Handle error, e.g., display an error message on the relevant pages 
     });
