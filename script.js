@@ -1,63 +1,64 @@
 const searchBars = document.querySelectorAll('.search-bar');
 const resultsContainer = document.getElementById('search-results');
-const listPages = ['index.html', 'page2.html', 'page3.html']; // Update with your list pages
 
-// Fetch links data on script load
+// Fetch the links data (assuming you'll keep it in 'all_links.json')
 fetch('all_links.json')
     .then(response => response.json())
     .then(linksData => {
+        // Store the fetched data for later use
         let allLinks = linksData;  
 
-        // Update search results function
+        // Function to update search results
         function updateSearchResults(searchTerm) {
-            resultsContainer.innerHTML = ''; 
+            resultsContainer.innerHTML = ''; // Clear old results
 
             if (searchTerm === '') {
-                const currentPage = window.location.pathname.split('/').pop();
+                // If the search is empty, you might want to show a default message or do nothing
+                return; 
+            }
 
-                if (listPages.includes(currentPage)) {
-                    const currentIndex = listPages.indexOf(currentPage);
-                    const prevIndex = (currentIndex - 1 + listPages.length) % listPages.length; 
-                    const prevListPage = listPages[prevIndex]; 
-                    window.location.href = prevListPage; 
-                } else {
-                    window.history.back(); 
-                }
+            const filteredLinks = allLinks.filter(link => 
+                link.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            if (filteredLinks.length === 0) {
+                resultsContainer.textContent = 'No results found.';
             } else {
-                const filteredLinks = allLinks.filter(link => 
-                    link.title.toLowerCase().includes(searchTerm.toLowerCase())
-                );
+                const resultsList = document.createElement('ul');
 
-                if (filteredLinks.length === 0) {
-                    resultsContainer.textContent = 'No results found.';
-                } else {
-                    const resultsList = document.createElement('ul');
-                    filteredLinks.forEach(link => { /* ... (create list items) ... */ }); 
-                    resultsContainer.appendChild(resultsList);
-                }
+                filteredLinks.forEach(link => {
+                    const listItem = document.createElement('li');
+                    const linkElement = document.createElement('a');
+                    linkElement.textContent = link.title;
+                    linkElement.href = link.url;
+                    listItem.appendChild(linkElement);
+                    resultsList.appendChild(listItem);                    
+                });
+
+                resultsContainer.appendChild(resultsList);
             }
         }
 
-        // Event listener for search bar input
+        // Event listener for search bar changes 
         searchBars.forEach(searchBar => {
             searchBar.addEventListener('input', (event) => {
                 const searchTerm = event.target.value.toLowerCase(); 
                 updateSearchResults(searchTerm);
 
-                // Update the URL 
+                // Update the URL (if needed)
                 const queryParams = new URLSearchParams({ q: searchTerm });
                 history.pushState({}, '', `${window.location.pathname}?${queryParams.toString()}`);
             });
         });
 
-        // Event listener for back/forward button (URL changes)
+        // Event listener for URL changes (back/forward buttons etc.)
         window.addEventListener('popstate', () => {
             const queryParams = new URLSearchParams(window.location.search);
             const searchTerm = queryParams.get('q');
             updateSearchResults(searchTerm);
         });
 
-        // Initial search from the URL on page load
+        // Initial search (if there's a search term in the URL on page load)
         const initialSearchParams = new URLSearchParams(window.location.search);
         const initialSearchTerm = initialSearchParams.get('q');
         if (initialSearchTerm) {
@@ -66,5 +67,5 @@ fetch('all_links.json')
     })
     .catch(error => {
         console.error('Error fetching data:', error);
-        // Handle error, e.g., display an error message
+        // Handle the error gracefully, e.g., display an error message
     });
