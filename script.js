@@ -48,10 +48,10 @@ fetch('all_links.json')
                     }
 
                 } else {
-                    // Redirect to search.html with search term (after 2-second delay)
+                    // Redirect to search.html with search term (after 1-second delay)
                     setTimeout(() => {
                         window.location.href = `search.html?${queryParams.toString()}`;
-                    }, 2000); 
+                    }, 1000); 
                 }
             }
         }
