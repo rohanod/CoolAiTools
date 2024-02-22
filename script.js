@@ -13,23 +13,15 @@ searchBars.forEach(searchBar => {
 
     const searchWithDelay = debounce((event) => {
         const searchTerm = event.target.value.toLowerCase();
-        let currentPage = 1; 
 
-        // Get the current page number (if present)
-        const queryParams = new URLSearchParams(window.location.search);
-        const pageParam = queryParams.get('p');
-        if (pageParam) {
-            currentPage = parseInt(pageParam); 
-        }
-
-        if (searchTerm === '') { // Check for empty search
-            window.history.back(); // Go back to the previous page
+        if (searchTerm === '') { 
+            window.history.back(); 
         } else {
-            // Redirect with the search term
-            const queryParams = new URLSearchParams({ q: searchTerm, p: currentPage });
-            window.location.href = 'search.html?' + queryParams.toString();
+            // Update the URL with the search term
+            const queryParams = new URLSearchParams({ q: searchTerm }); 
+            window.history.pushState({}, '', `search.html?${queryParams.toString()}`);
         }
-    }, 300); // 300 milliseconds delay
+    }, 300);  
 
     searchBar.addEventListener('input', searchWithDelay);
 });
