@@ -2,26 +2,26 @@
 <html lang="en">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-63J6L87NZB"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  gtag('config', 'G-63J6L87NZB');
-</script>
+        gtag('config', 'G-63J6L87NZB');
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cool Spaces - Page 3</title>
-     <style>
+    <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f2e1b1; /* Light beige background color */
+            background-color: #f2e1b1; 
             text-align: center;
             padding: 20px;
             margin: 0;
         }
         a:is(.div1) {
-            background-color: #c798ea; /* Green */
+            background-color: #c798ea;
             border: #42ccff;
             color: #ffffff;
             padding: 15px 32px;
@@ -31,7 +31,7 @@
             font-size: 16px;
         }
         header {
-            background-color: #c798ea; /* Dark purple header color */
+            background-color: #c798ea; 
             color: white;
             padding: 10px;
             font-size: 24px;
@@ -42,23 +42,20 @@
             margin-bottom: 10px;
             padding: 10px;
             text-decoration: none;
-            background-color: #8cc84b; /* Light green button color */
+            background-color: #8cc84b; 
             color: white;
             border-radius: 5px;
             font-size: 16px;
             transition: background-color 0.7s;
         }
-
         a:not(.div1):hover {
-            background-color: #4d94ff; /* Darker blue on hover */
+            background-color: #4d94ff; 
         }
-
         .pagination {
             display: flex;
             justify-content: center;
             margin-top: 20px;
         }
-
         .pagination a {
             display: inline-block;
             padding: 8px 16px;
@@ -68,23 +65,27 @@
             border-radius: 5px;
             margin: 0 5px;
         }
-
         .pagination a:hover {
             background-color: #454ea0;
         }
         #search-bar {
-    width: 50%;  /* Adjust width as desired */
-    padding: 15px; 
-    margin: 20px 0; /* Some spacing */
-    font-size: 18px; 
-    border: 2px solid #c798ea; /* Match your header color */
-    border-radius: 8px; 
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-}
-
-        #search-bar:focus { /* Style for when the search bar is in focus */
+            width: 50%;  
+            padding: 15px; 
+            margin: 20px 0; 
+            font-size: 18px; 
+            border: 2px solid #c798ea; 
+            border-radius: 8px; 
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); 
+        }
+        #search-bar:focus { 
             outline: none;  
             box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3); 
+        }
+        header h1, 
+        header p,
+        #search-bar {
+            text-align: center; 
+            margin-bottom: 20px; 
         }
     </style>
 </head>
@@ -94,31 +95,31 @@
         <a href="https://huggingface.co" class="div1">From HuggingFace</a>
         <a href="https://huggingface.co/allknowingroger" class="div1">Image Models</a>
         <p>If a page says forbidden embeding, then you just add a /? to the end of the url</p>
-
-        <input type="text" id="search-bar" class="search-bar" placeholder="Search for tools..."> </header>
+        <input type="text" id="search-bar" class="search-bar" placeholder="Search for tools..."> 
+        <div id="search-results"></div> 
     </header>
-        <a href="https://hysts-shap-e.hf.space/?">Shape-E</a>
-        <a href="https://skytnt-midi-composer.hf.space/?">Midi Composer</a>
-        <a href="https://kakaobrain-karlo.hf.space/?">Karlo - unCLIP model by KakaoBrain</a>
-        <a href="https://vumichien-generate-human-motion.hf.space/?">Human Motion Animation</a>
-        <a href="https://wine-ineff-minecraftskin-diffusion.hf.space/?">Minecraft Skin diffusion</a>
-        <a href="https://pixart-alpha-pixart-lcm.hf.space/?">PixArt-LCM 1024px</a>
-        <a href="https://radames-real-time-sd-turbo.hf.space/?">Real-Time Stable Diffusion</a>
-        <a href="https://suno-bark.hf.space/?">suno-bark</a>
-        <a href="https://jbilcke-hf-ai-bedtime-story.hf.space/?">Bedtime story Generator</a>
-        <a href="https://fal-ai-realtime-stable-diffusion-local.hf.space/?">Realtime Sketch Diffusion</a>
-        <a href="https://yntec-printingpress.hf.space/?">Top 663 Blitz Diffusion Models</a>
-        <a href="https://shizuku-ai-streamdiffusion-realtime-txt2img.hf.space/?">Real-Time text diffusion</a>
-        <a href="https://coqui-voice-chat-with-mistral.hf.space">Ai Voice Chat</a>
 
-   <div class="pagination">
+    <a href="https://hysts-shap-e.hf.space/?">Shape-E</a>
+    <a href="https://skytnt-midi-composer.hf.space/?">Midi Composer</a>
+    <a href="https://kakaobrain-karlo.hf.space/?">Karlo - unCLIP model by KakaoBrain</a>
+    <a href="https://vumichien-generate-human-motion.hf.space/?">Human Motion Animation</a>
+    <a href="https://wine-ineff-minecraftskin-diffusion.hf.space/?">Minecraft Skin diffusion</a>
+    <a href="https://pixart-alpha-pixart-lcm.hf.space/?">PixArt-LCM 1024px</a>
+    <a href="https://radames-real-time-sd-turbo.hf.space/?">Real-Time Stable Diffusion</a>
+    <a href="https://suno-bark.hf.space/?">suno-bark</a>
+    <a href="https://jbilcke-hf-ai-bedtime-story.hf.space/?">Bedtime story Generator</a>
+    <a href="https://fal-ai-realtime-stable-diffusion-local.hf.space/?">Realtime Sketch Diffusion</a>
+    <a href="https://yntec-printingpress.hf.space/?">Top 663 Blitz Diffusion Models</a>
+    <a href="https://shizuku-ai-streamdiffusion-realtime-txt2img.hf.space/?">Real-Time text diffusion</a>
+    <a href="https://coqui-voice-chat-with-mistral.hf.space">Ai Voice Chat</a>
+
+    <div class="pagination">
         <a href="index.html">1</a>
         <a href="page2.html">2</a>
         <a href="page3.html">3</a>
     </div>
+
+    <footer>By Rohan O'Dwyer</footer>
+    <script src="script.js"></script> 
 </body>
-<br>
-<br>
-<footer>By Rohan O'Dwyer</footer>
-<script src="script.js"></script> 
 </html>
