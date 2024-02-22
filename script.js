@@ -1,33 +1,43 @@
 const searchBars = document.querySelectorAll('.search-bar'); 
 
 searchBars.forEach(searchBar => {
-    searchBar.addEventListener('keyup', (event) => {
-        if (event.key === 'Enter') { 
-            const searchTerm = event.target.value.toLowerCase();
-            let currentPage = 1; 
+    const debounce = (func, delay) => {
+        let timeoutId;
+        return (...args) => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                func.apply(null, args);
+            }, delay);
+        };
+    };
 
-            // Get the current page number (if present)
-            const queryParams = new URLSearchParams(window.location.search);
-            const pageParam = queryParams.get('p');
-            if (pageParam) {
-                currentPage = parseInt(pageParam); 
-            }
+    const searchWithDelay = debounce((event) => {
+        const searchTerm = event.target.value.toLowerCase();
+        let currentPage = 1; 
 
-            if (searchTerm) {
-                // Search with the term
-                const queryParams = new URLSearchParams({ q: searchTerm, p: currentPage });
-                window.location.href = 'search.html?' + queryParams.toString();
-            } else {
-                // Go back to previous page
-                window.history.back();
-            }
+        // Get the current page number (if present)
+        const queryParams = new URLSearchParams(window.location.search);
+        const pageParam = queryParams.get('p');
+        if (pageParam) {
+            currentPage = parseInt(pageParam); 
         }
-    });
+
+        if (searchTerm === '') { // Check for empty search
+            window.history.back(); // Go back to the previous page
+        } else {
+            // Redirect with the search term
+            const queryParams = new URLSearchParams({ q: searchTerm, p: currentPage });
+            window.location.href = 'search.html?' + queryParams.toString();
+        }
+    }, 300); // 300 milliseconds delay
+
+    searchBar.addEventListener('input', searchWithDelay);
 });
 
 // Code for search.html (Since the script is on all pages, this part becomes relevant everywhere)
 const searchBar = document.getElementById('search-bar');
 const resultsContainer = document.getElementById('search-results');
+const paginationControls = document.getElementById('pagination-controls'); // Assuming this exists
 
 // Fetch links data
 fetch('all_links.json') 
@@ -43,24 +53,21 @@ fetch('all_links.json')
                 link.title.toLowerCase().includes(searchTerm.toLowerCase())
             );
 
-            if (filteredLinks.length === 0) {
-                resultsContainer.textContent = 'No results found.';
-            } else {
-                // Create an unordered list without bullet points
-                const resultsList = document.createElement('ul'); 
-                resultsList.style.listStyleType = 'none'; 
+            // ... (Your code to display the 'filteredLinks' in 'search-results') ...
 
-                filteredLinks.forEach(link => {
-                    const listItem = document.createElement('li');
-                    const linkElement = document.createElement('a');
-                    linkElement.textContent = link.title;
-                    linkElement.href = link.url;
-                    listItem.appendChild(linkElement);
-                    resultsList.appendChild(listItem);                    
-                });
-                resultsContainer.appendChild(resultsList);
+            //  Pagination generation
+            paginationControls.innerHTML = ''; // Clear any existing pagination
+            const itemsPerPage = 10; 
+            const currentPage = parseInt(queryParams.get('p')) || 1; 
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageResults = filteredLinks.slice(startIndex, endIndex); 
 
-                // ... (Add your pagination generation code here) ...
-            } 
+            for (let i = 1; i <= Math.ceil(filteredLinks.length / itemsPerPage); i++) {
+                const link = document.createElement('a');
+                link.textContent = i;
+                link.href = `search.html?q=${searchTerm}&p=${i}`; 
+                paginationControls.appendChild(link);
+            }
         }
     });
