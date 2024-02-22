@@ -1,90 +1,95 @@
 /* ------- General Styles ------ */
 body {
     font-family: 'Arial', sans-serif; 
-    background-color: #f2e1b1; /* Light beige background */
+    background: linear-gradient(to bottom, #0099ff, #e6f2ff); /* Gradient blue to purple */
     text-align: center;
     padding: 20px;
     margin: 0;
-}
-
-header {
-    background-color: #c798ea; /* Dark purple header color */
+  }
+  
+  header {
+    background-color: #2980b9; /* Rich blue */
     color: white;
     padding: 15px;
     font-size: 24px;
     margin-bottom: 20px;
-}
-
-footer { 
-    background-color: #c798ea; /* Match the header */
+  }
+  
+  footer { 
+    background-color: #2980b9; /* Match the header */
     color: white;
     text-align: center;
     padding: 10px;
     position: fixed; /* Optionally fix footer to bottom */
     bottom: 0;
     width: 100%;
-}
-
-/* ------- Link Styles -------- */
-a { 
+  }
+  
+  /* ------- Link Styles -------- */
+  a { 
     text-decoration: none; /* Remove default underlines */
-}
-
-a:is(.div1) { /* Your special class for certain links */
-    background-color: #c798ea; 
-    border: #42ccff;
-    color: #ffffff;
+  }
+  
+  a:is(.div1) { /* Your special class for certain links */
+    background-color: #e6f2ff; /* Light blue */
+    border: #f7ca18; /* Yellow */
+    color: white;
     padding: 15px 32px;
     text-decoration: underline;
     display: inline-block;
     font-size: 16px;
-}
-
-a:not(.div1) { /* Your general link style */
+  }
+  
+  a:not(.div1) { /* Your general link style */
     display: block;
     margin-bottom: 10px;
     padding: 10px;
-    background-color: #8cc84b;
+    background-color: #0099ff; /* Dominant blue */
     color: white;
     border-radius: 5px;
     font-size: 16px;
     transition: background-color 0.7s;
-}
-
-a:not(.div1):hover {
-    background-color: #4d94ff; 
-}
-
-/* ------ Pagination ------- */
-.pagination {
+  }
+  
+  a:not(.div1):hover {
+    background-color: #3498db; /* Darker blue */
+  }
+  
+  /* ------ Pagination ------- */
+  .pagination {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-}
-
-.pagination a {
+  }
+  
+  .pagination a {
     display: inline-block;
     padding: 8px 16px;
-    background-color: #4CAF50; 
+    background-color: #f7ca18; /* Yellow */
     color: white;
     border-radius: 5px;
     margin: 0 5px;
     text-decoration: none;
-}
-
-.pagination a:hover {
-    background-color: #45a049; 
-}
-
-/* ------ Search Bar (For search.html) -------- */
-#search-bar {
+  }
+  
+  .pagination a:hover {
+    background-color: #f08080; /* Light pink */
+  }
+  
+  /* ------ Search Bar (For search.html) -------- */
+  #search-bar {
     width: 50%;
     padding: 12px;
     font-size: 16px;
-    border: 2px solid #c798ea;
+    border: 2px solid #e6f2ff; /* Light blue */
     border-radius: 6px;
     margin-bottom: 15px;
-}
-#search-results ul {
+  }
+  #search-results ul {
     list-style-type: none; /* Removes bullet points */
-}
+  }
+  
+  /* ------ Font Selection -------- */
+  /* Replace 'Arial' with your preferred modern, bold font */
+  /* Choose specific font families for headings, body text, etc. */
+  
