@@ -37,7 +37,6 @@ searchBars.forEach(searchBar => {
 // Code for search.html (Since the script is on all pages, this part becomes relevant everywhere)
 const searchBar = document.getElementById('search-bar');
 const resultsContainer = document.getElementById('search-results');
-const paginationControls = document.getElementById('pagination-controls'); // Assuming this exists
 
 // Fetch links data
 fetch('all_links.json') 
@@ -53,21 +52,24 @@ fetch('all_links.json')
                 link.title.toLowerCase().includes(searchTerm.toLowerCase())
             );
 
-            // ... (Your code to display the 'filteredLinks' in 'search-results') ...
+            // Clear existing results 
+            resultsContainer.innerHTML = '';
 
-            //  Pagination generation
-            paginationControls.innerHTML = ''; // Clear any existing pagination
-            const itemsPerPage = 10; 
-            const currentPage = parseInt(queryParams.get('p')) || 1; 
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const pageResults = filteredLinks.slice(startIndex, endIndex); 
+            if (filteredLinks.length === 0) {
+                resultsContainer.textContent = 'No results found.';
+            } else {
+                const resultsList = document.createElement('ul');
+                
+                filteredLinks.forEach(link => {
+                    const listItem = document.createElement('li');
+                    const linkElement = document.createElement('a');
+                    linkElement.textContent = link.title;
+                    linkElement.href = link.url;
+                    listItem.appendChild(linkElement);
+                    resultsList.appendChild(listItem);                    
+                });
 
-            for (let i = 1; i <= Math.ceil(filteredLinks.length / itemsPerPage); i++) {
-                const link = document.createElement('a');
-                link.textContent = i;
-                link.href = `search.html?q=${searchTerm}&p=${i}`; 
-                paginationControls.appendChild(link);
+                resultsContainer.appendChild(resultsList);
             }
         }
     });
