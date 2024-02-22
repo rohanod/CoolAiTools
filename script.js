@@ -1,59 +1,67 @@
-const searchBars = document.querySelectorAll('.search-bar');
+const searchBars = document.querySelectorAll('.search-bar'); 
 
 searchBars.forEach(searchBar => {
-    searchBar.addEventListener('input', (event) => {
-        const searchTerm = event.target.value.toLowerCase().trim(); // Improved: adds .trim()
+    const debounce = (func, delay) => {
+        let timeoutId;
+        return (...args) => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                func.apply(null, args);
+            }, delay);
+        };
+    };
 
-        if (searchTerm === '') {
-            clearSearchResults(); // Clear previous results
-            return; // Stop if empty search
+    const searchWithDelay = debounce((event) => {
+        const searchTerm = event.target.value.toLowerCase();
+
+        if (searchTerm === '') { 
+            window.history.back(); 
+        } else {
+            // Update the URL with the search term
+            const queryParams = new URLSearchParams({ q: searchTerm }); 
+            window.history.pushState({}, '', `search.html?${queryParams.toString()}`);
         }
+    }, 300);  
 
-        updateSearchResults(searchTerm);
-    });
+    searchBar.addEventListener('input', searchWithDelay);
 });
 
-function updateSearchResults(searchTerm) {
-    const resultsContainer = document.getElementById('search-results'); 
-    resultsContainer.innerHTML = '<p>Loading results...</p>'; // Indicate loading
+// Code for search.html (Since the script is on all pages, this part becomes relevant everywhere)
+const searchBar = document.getElementById('search-bar');
+const resultsContainer = document.getElementById('search-results');
 
-    fetch('all_links.json') 
-        .then(response => response.json())
-        .then(linksData => {
-            renderSearchResults(linksData, searchTerm, resultsContainer);
-        })
-        .catch(error => {
-            resultsContainer.innerHTML = '<p>Error fetching data. Try again later.</p>';
-            console.error('Error fetching data:', error); 
-        });
-}
+// Fetch links data
+fetch('all_links.json') 
+    .then(response => response.json())
+    .then(linksData => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const searchTerm = queryParams.get('q');
 
-function renderSearchResults(linksData, searchTerm, resultsContainer) {
-    const filteredLinks = linksData.filter(link => 
-        link.title.toLowerCase().includes(searchTerm)
-    );
+        if (searchTerm) {
+            searchBar.value = searchTerm; 
 
-    resultsContainer.innerHTML = ''; // Clear previous state
+            const filteredLinks = linksData.filter(link => 
+                link.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
 
-    if (filteredLinks.length === 0) {
-        resultsContainer.textContent = 'No results found.';
-    } else {
-        const resultsList = document.createElement('ul');
+            // Clear existing results 
+            resultsContainer.innerHTML = '';
 
-        filteredLinks.forEach(link => {
-            const listItem = document.createElement('li');
-            const linkElement = document.createElement('a');
-            linkElement.textContent = link.title;
-            linkElement.href = link.url;
-            listItem.appendChild(linkElement);
-            resultsList.appendChild(listItem);                    
-        });
+            if (filteredLinks.length === 0) {
+                resultsContainer.textContent = 'No results found.';
+            } else {
+                const resultsList = document.createElement('ul');
+                
+                filteredLinks.forEach(link => {
+                    const listItem = document.createElement('li');
+                    const linkElement = document.createElement('a');
+                    linkElement.textContent = link.title;
+                    linkElement.href = link.url;
+                    listItem.appendChild(linkElement);
+                    resultsList.appendChild(listItem);                    
+                });
 
-        resultsContainer.appendChild(resultsList);
-    }
-}
-
-function clearSearchResults() {
-    const resultsContainer = document.getElementById('search-results'); 
-    resultsContainer.innerHTML = '';
-}
+                resultsContainer.appendChild(resultsList);
+            }
+        }
+    });
