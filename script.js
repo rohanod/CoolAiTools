@@ -1,67 +1,43 @@
-const searchBars = document.querySelectorAll('.search-bar'); 
-
-searchBars.forEach(searchBar => {
-    const debounce = (func, delay) => {
-        let timeoutId;
-        return (...args) => {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => {
-                func.apply(null, args);
-            }, delay);
-        };
-    };
-
-    const searchWithDelay = debounce((event) => {
-        const searchTerm = event.target.value.toLowerCase();
-
-        if (searchTerm === '') { 
-            window.history.back(); 
-        } else {
-            // Update the URL with the search term
-            const queryParams = new URLSearchParams({ q: searchTerm }); 
-            window.history.pushState({}, '', `search.html?${queryParams.toString()}`);
-        }
-    }, 300);  
-
-    searchBar.addEventListener('input', searchWithDelay);
-});
-
-// Code for search.html (Since the script is on all pages, this part becomes relevant everywhere)
-const searchBar = document.getElementById('search-bar');
-const resultsContainer = document.getElementById('search-results');
-
-// Fetch links data
-fetch('all_links.json') 
-    .then(response => response.json())
-    .then(linksData => {
-        const queryParams = new URLSearchParams(window.location.search);
-        const searchTerm = queryParams.get('q');
-
-        if (searchTerm) {
-            searchBar.value = searchTerm; 
-
-            const filteredLinks = linksData.filter(link => 
-                link.title.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-
-            // Clear existing results 
-            resultsContainer.innerHTML = '';
-
-            if (filteredLinks.length === 0) {
-                resultsContainer.textContent = 'No results found.';
-            } else {
-                const resultsList = document.createElement('ul');
-                
-                filteredLinks.forEach(link => {
-                    const listItem = document.createElement('li');
-                    const linkElement = document.createElement('a');
-                    linkElement.textContent = link.title;
-                    linkElement.href = link.url;
-                    listItem.appendChild(linkElement);
-                    resultsList.appendChild(listItem);                    
-                });
-
-                resultsContainer.appendChild(resultsList);
-            }
-        }
-    });
+[
+    {"title": "Fast SDXL", "url": "https://openskyml-fast-sdxl-stable-diffusion-xl.hf.space/"},
+    {"title": "Google Fast SDXL", "url": "https://google-sdxl.hf.space/"},
+    {"title": "MusicGen", "url": "https://facebook-musicgen.hf.space/"},
+    {"title": "Illusion Diffusion", "url": "https://ap123-illusiondiffusion.hf.space/"},
+    {"title": "XTTS Voice Cloning", "url": "https://coqui-xtts.hf.space"},
+    {"title": "Style TTS", "url": "https://styletts2-styletts2.hf.space/"},
+    {"title": "PixArt-a", "url": "https://pixart-alpha-pixart-alpha.hf.space/"},
+    {"title": "Text to Image Story Teller", "url": "https://tonyassi-text-to-image-story-teller.hf.space/"},
+    {"title": "DALL.E 3 XL", "url": "https://cyranicus-dalle-3-xl.hf.space/"},
+    {"title": "Mario GPT", "url": "https://multimodalart-mariogpt.hf.space/"},
+    {"title": "Guess the Image: which one is the good one?", "url": "https://enzostvs-guess-the-image.hf.space/"},
+    {"title": "UnlimitedMusicGen", "url": "https://surn-unlimitedmusicgen.hf.space/"},
+    {"title": "Versatile Diffusion", "url": "https://shi-labs-versatile-diffusion.hf.space"},
+    {"title": "Dreamlike Diffusion 1.0", "url": "https://phenomenon1981-dreamlikeart-diffusion-1-0.hf.space"},
+    {"title": "AI Webscraper", "url": "https://cognitivelabs-gpt-auto-webscraping.hf.space"},
+    {"title": "Ip Checker", "url": "https://radames-gradio-request-get-client-ip.hf.space"},
+    {"title": "De-Identifier", "url": "https://presidio-presidio-demo.hf.space"},
+    {"title": "Captcha Reader", "url": "https://docparser-text-captcha-breaker.hf.space"},
+    {"title": "Stable Diffusion prompts", "url": "https://gustproof-sd-prompts.hf.space"},
+    {"title": "SD Models", "url": "https://allknowingroger-image-models-test174.hf.space"},
+    {"title": "Comic Maker", "url": "https://aigorithm-aicomicsbook.hf.space"},
+    {"title": "SDXL in 4 steps with Latent Consistency LoRAs", "url": "https://latent-consistency-lcm-lora-for-sdxl.hf.space"},
+    {"title": "Doodly - T2I-Adapter-SDXL Sketch", "url": "https://tencentarc-t2i-adapter-sdxl-sketch.hf.space"},
+    {"title": "Image Cartoonizer", "url": "https://sayakpaul-cartoonizer-demo-onnx.hf.space"},
+    {"title": "Syntactic Tree Generator", "url": "https://nanom-syntactic-tree.hf.space"},
+    {"title": "Sheet Music Generator", "url": "https://visakh7843-sheet-music-generator.hf.space"},
+    {"title": "Monster Generator", "url": "https://gstaff-monstergenv2.hf.space"},
+    {"title": "Whisper STT", "url": "https://choimirai-whisper-large-v3.hf.space"},
+    {"title": "Youtube Video Summarizer", "url": "https://smakamali-summarize-youtube.hf.space"},
+    {"title": "Shape-E", "url": "https://hysts-shap-e.hf.space"},
+    {"title": "Midi Composer", "url": "https://skytnt-midi-composer.hf.space"},
+    {"title": "Karlo - unCLIP model by KakaoBrain", "url": "https://kakaobrain-karlo.hf.space"},
+    {"title": "Human Motion Animation", "url": "https://vumichien-generate-human-motion.hf.space"},
+    {"title": "Minecraft Skin Diffusion", "url": "https://wine-ineff-minecraftskin-diffusion.hf.space"},
+    {"title": "PixArt-LCM 1024px", "url": "https://pixart-alpha-pixart-lcm.hf.space"},
+    {"title": "Real-Time Stable Diffusion", "url": "https://radames-real-time-sd-turbo.hf.space"},
+    {"title": "suno-bark", "url": "https://suno-bark.hf.space"},
+    {"title": "Bedtime story Generator", "url": "https://jbilcke-hf-ai-bedtime-story.hf.space"},
+    {"title": "Realtime Sketch Diffusion", "url": "https://fal-ai-realtime-stable-diffusion-local.hf.space"},
+    {"title": "Top 663 Blitz Diffusion Models", "url": "https://yntec-printingpress.hf.space"},
+    {"title": "Real-Time text diffusion", "url": "https://shizuku-ai-streamdiffusion-realtime-txt2img.hf.space"}
+]
