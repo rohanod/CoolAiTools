@@ -30,7 +30,27 @@ fetch('all_links.json')
                 if (isOnSearchPage) {
                     // Update results on search.html
                     resultsContainer.innerHTML = ''; // Clear old results
-                    // ... (Your code to fetch and display results on 'search.html') ...
+                   // ... (Your code to fetch and display results on 'search.html') ... 
+                    const queryParams = new URLSearchParams(window.location.search);
+                    const searchTerm = queryParams.get('q').toLowerCase(); 
+
+                    const filteredLinks = allLinks.filter(link => 
+                        link.title.toLowerCase().includes(searchTerm)
+                    );
+
+                    resultsContainer.innerHTML = ''; // Clear old results
+
+                    if (filteredLinks.length === 0) {
+                        resultsContainer.textContent = 'No results found.';
+                    } else {
+                        filteredLinks.forEach(link => {
+                            const resultItem = document.createElement('a');
+                            resultItem.href = link.url;
+                            resultItem.textContent = link.title;
+                            resultsContainer.appendChild(resultItem); 
+                        });
+                    }
+
                 } else {
                     // Redirect to search.html with search term
                     window.location.href = `search.html?${queryParams.toString()}`;
