@@ -1,75 +1,62 @@
-/* ------- General Styles ------ */
 body {
-    font-family: 'Arial', sans-serif; /* Your preferred font */
-    background: linear-gradient(to bottom, #0099ff, #e6f2ff); /* Gradient blue to purple */
+    font-family: 'Roboto', sans-serif; 
+    background-color: #e6f2ff; 
     text-align: center;
     padding: 20px;
     margin: 0;
-    height: 100vh; /* Covers full viewport height */
-    background-attachment: fixed; /* Makes background scroll with content */
+    height: 100vh; 
+    background-attachment: fixed; 
 }
 
-/* ------- Header Styles -------- */
 header {
-    background-color: #2980b9; /* Rich blue */
+    background-color: #0099ff;  
     color: white;
     padding: 15px;
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 28px; 
+    font-weight: bold; 
+    margin-bottom: 30px; 
 }
 
-/* ------- Footer Styles -------- */
 footer { 
-    background-color: #2980b9; /* Match the header */
+    background-color: #0099ff; 
     color: white;
     text-align: center;
-    padding: 10px; /* Adjust padding if needed */
-    /* Optionally fix footer to bottom */
-    /* bottom: 0; */
-    /* width: 100%; */
+    padding: 15px; 
 }
 
-/* ------- Link Styles -------- */
 a { 
-    text-decoration: none; /* Remove default underlines */
+    text-decoration: none; 
 }
 
-a.div1 { /* Your special class for certain links */
-    background-color: #e6f2ff; /* Light blue */
-    border: #f7ca18; /* Yellow */
+a.div1 { 
+    background-color: #fff0cc; 
+    border: #f7ca18; 
     color: white;
     padding: 15px 32px;
-    text-decoration: underline; /* Apply underline as requested */
+    text-decoration: underline; 
     display: inline-block;
     font-size: 16px;
 }
 
-a:not(.div1) { /* Your general link style */
+a:not(.div1) { 
     display: block;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #0099ff; /* Dominant blue */
+    margin-bottom: 15px; 
+    padding: 12px 18px; 
+    background-color: #0099ff; 
     color: white;
     border-radius: 5px;
     font-size: 16px;
-    transition: background-color 0.7s;
+    transition: background-color 0.3s; 
 }
 
 a:not(.div1):hover {
-    background-color: #3498db; /* Darker blue */
+    background-color: #3498db; 
 }
 
-/* ------ Pagination ------- */
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.pagination a {
+.pagination a { 
     display: inline-block;
     padding: 8px 16px;
-    background-color: #f7ca18; /* Yellow */
+    background-color: #f7ca18; 
     color: white;
     border-radius: 5px;
     margin: 0 5px;
@@ -77,22 +64,33 @@ a:not(.div1):hover {
 }
 
 .pagination a:hover {
-    background-color: #f08080; /* Light pink */
+    background-color: #ffdd88; 
 }
 
-/* ------ Search Bar (For search.html) -------- */
 #search-bar {
     width: 50%;
     padding: 12px;
     font-size: 16px;
-    border: 2px solid #e6f2ff; /* Light blue */
+    border: 2px solid #ccc; 
     border-radius: 6px;
     margin-bottom: 15px;
 }
-#search-results ul {
-    list-style-type: none; /* Removes bullet points */
+
+@media (max-width: 600px) { 
+  #search-bar {
+    width: 80%;
+  }
 }
 
-/* ------ Font Selection -------- */
-/* Replace 'Arial' with your preferred modern, bold font */
-/* Choose specific font families for headings, body text, etc. */
+nav.header-nav a.nav-link-alt { 
+    background-color: #22d7e8 !important;  
+    color: black !important; 
+    padding: 10px 5px !important;
+    text-decoration: none !important;
+    border-radius: 5px !important;
+    transition: background-color 0.3s !important;
+}
+
+nav.header-nav a.nav-link-alt:hover {
+    background-color: #507def !important;
+}

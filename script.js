@@ -1,8 +1,8 @@
 const searchBars = document.querySelectorAll('.search-bar');
 const resultsContainer = document.getElementById('search-results'); 
-const listPages = ['index.html', 'page2.html', 'page3.html']; // Update with your list pages
+const listPages = ['index.html', 'page2.html', 'page3.html'];
 
-// Fetch links data on script load
+
 fetch('all_links.json')
     .then(response => response.json())
     .then(linksData => {

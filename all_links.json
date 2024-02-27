@@ -39,5 +39,9 @@
     {"title": "Bedtime story Generator", "url": "https://jbilcke-hf-ai-bedtime-story.hf.space"},
     {"title": "Realtime Sketch Diffusion", "url": "https://fal-ai-realtime-stable-diffusion-local.hf.space"},
     {"title": "Top 663 Blitz Diffusion Models", "url": "https://yntec-printingpress.hf.space"},
-    {"title": "Real-Time text diffusion", "url": "https://shizuku-ai-streamdiffusion-realtime-txt2img.hf.space"}
+    {"title": "Real-Time text diffusion", "url": "https://shizuku-ai-streamdiffusion-realtime-txt2img.hf.space"},
+    {"title": "Lora Studio", "url": "https://enzostvs-lora-studio.hf.space"},
+    {"title": "Image 3D Rotation", "url": "https://ashawkey-lgm.hf.space"},
+    {"title": "Asset Generator", "url": "https://jbilcke-hf-illustrateur-cloud.hf.space"},
+    {"title": "Stable Diffusion Web-UI", "url": "https://prodia-fast-stable-diffusion.hf.space"}
 ]
