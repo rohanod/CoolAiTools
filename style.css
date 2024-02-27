@@ -83,7 +83,7 @@ a:not(.div1):hover {
 }
 
 nav.header-nav a.nav-link-alt { 
-    background-color: #22d7e8 !important;  
+    background-color: #0099ff !important;  
     color: black !important; 
     padding: 10px 5px !important;
     text-decoration: none !important;
@@ -92,5 +92,5 @@ nav.header-nav a.nav-link-alt {
 }
 
 nav.header-nav a.nav-link-alt:hover {
-    background-color: #507def !important;
+    background-color: #3498db !important;
 }

@@ -43,5 +43,6 @@
     {"title": "Lora Studio", "url": "https://enzostvs-lora-studio.hf.space"},
     {"title": "Image 3D Rotation", "url": "https://ashawkey-lgm.hf.space"},
     {"title": "Asset Generator", "url": "https://jbilcke-hf-illustrateur-cloud.hf.space"},
-    {"title": "Stable Diffusion Web-UI", "url": "https://prodia-fast-stable-diffusion.hf.space"}
+    {"title": "Stable Diffusion Web-UI", "url": "https://prodia-fast-stable-diffusion.hf.space"},
+    {"title": "Screenshot2HTML", "url": "https://huggingfacem4-screenshot2html.hf.space"},
 ]
