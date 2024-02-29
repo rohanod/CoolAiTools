@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/links.html", "destination": "/Links.html", "statusCode": 301 }
+  ]
+}
