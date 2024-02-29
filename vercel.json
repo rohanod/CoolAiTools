@@ -4,7 +4,7 @@
     { "source": "/index", "destination": "/index.html", "statusCode": 301 },
     { "source": "/links", "destination": "/Links.html", "statusCode": 301 },
     { "source": "/page2", "destination": "/page2.html", "statusCode": 301 },
-    { "source": "/page3", "destination": "/page3.html", "statusCode": 301 }
+    { "source": "/page3", "destination": "/page3.html", "statusCode": 301 },
     { "source": "/page4", "destination": "/page4.html", "statusCode": 301 }
   ]
 }
