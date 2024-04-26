@@ -44,5 +44,14 @@
     {"title": "Image 3D Rotation", "url": "https://ashawkey-lgm.hf.space"},
     {"title": "Asset Generator", "url": "https://jbilcke-hf-illustrateur-cloud.hf.space"},
     {"title": "Stable Diffusion Web-UI", "url": "https://prodia-fast-stable-diffusion.hf.space"},
-    {"title": "Screenshot2HTML", "url": "https://huggingfacem4-screenshot2html.hf.space"}
+    {"title": "Screenshot2HTML", "url": "https://huggingfacem4-screenshot2html.hf.space"},
+    {"title": "DBRX Instruct (Zero Shot Prompting)", "url": "https://databricks-dbrx-instruct.hf.space"},
+    {"title": "Code Gemma", "url": "https://ysharma-codegemma.hf.space"},
+    {"title": "Command R +", "url": "https://cohereforai-c4ai-command-r-plus.hf.space"},
+    {"title": "Stable Design", "url": "https://mykolal-stabledesign.hf.space"},
+    {"title": "LLM Chess Fight", "url": "https://mlabonne-chessllm.hf.space"},
+    {"title": "Change image using AI", "url": "https://marcosv-instructir.hf.space"},
+    {"title": "Long Form MusicGen", "url": "https://ylacombe-longform-musicgen.hf.space"},
+    {"title": "Segmind Stable Diffusion", "url": "https://segmind-segmind-stable-diffusion.hf.space"},
+    {"title": "Really Fast Chatbot powered by GROQ", "url": "https://miaohaiyuan-groqchatbot.hf.space"}
 ]
