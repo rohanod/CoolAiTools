@@ -53,5 +53,6 @@
     {"title": "Change image using AI", "url": "https://marcosv-instructir.hf.space"},
     {"title": "Long Form MusicGen", "url": "https://ylacombe-longform-musicgen.hf.space"},
     {"title": "Segmind Stable Diffusion", "url": "https://segmind-segmind-stable-diffusion.hf.space"},
-    {"title": "Really Fast Chatbot powered by GROQ", "url": "https://miaohaiyuan-groqchatbot.hf.space"}
+    {"title": "Really Fast Chatbot powered by GROQ", "url": "https://miaohaiyuan-groqchatbot.hf.space"},
+    {"title": "AIs fighting in football/soccer", "url": "https://unity-ml-agents-soccertwos.static.hf.space"}
 ]

@@ -11,6 +11,8 @@ html = """<a href="https://databricks-dbrx-instruct.hf.space">DBRX Instruct (Zer
     <a href="https://miaohaiyuan-groqchatbot.hf.space">Really Fast Chatbot powered by GROQ</a>
 """
 
+html = input("Enter the HTML: ")
+
 links = []
 for line in html.splitlines():
     start_href = line.find("href=")
