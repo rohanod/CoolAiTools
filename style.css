@@ -16,6 +16,7 @@ font-size: 28px;
 font-weight: bold;
 margin-bottom: 30px;
 animation: slideInDown 1s ease;
+border-radius: 10px; /* Add this line */
 }
 
 @keyframes slideInDown {
