@@ -3,6 +3,7 @@ const resultsContainer = document.getElementById('search-results');
 const listPages = ['index.html', 'page2.html', 'page3.html']; // Update with your list pages
 
 
+
 fetch('all_links.json')
     .then(response => response.json())
     .then(linksData => {
@@ -88,3 +89,20 @@ fetch('all_links.json')
         console.error('Error fetching data:', error);
         // Handle error, e.g., display an error message on the relevant pages 
     });
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Select all clickable elements (adjust the selector as needed)
+  const clickableElements = document.querySelectorAll('a, button');
+
+  clickableElements.forEach(element => {
+    element.addEventListener('click', function() {
+      // Add the animation class
+      this.classList.add('animate-on-click');
+
+      // Listen for the end of the animation and then remove the class
+      this.addEventListener('animationend', () => {
+        this.classList.remove('animate-on-click');
+      }, { once: true }); // The { once: true } option auto-removes the event listener after it's called once
+    });
+  });
+});
