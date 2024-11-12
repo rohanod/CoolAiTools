@@ -1,108 +1,76 @@
-const searchBars = document.querySelectorAll('.search-bar');
-const resultsContainer = document.getElementById('search-results'); 
-const listPages = ['index.html', 'page2.html', 'page3.html']; // Update with your list pages
-
-
-
-fetch('all_links.json')
-    .then(response => response.json())
-    .then(linksData => {
-        let allLinks = linksData;  
-
-        // Function to update search results (and redirect if needed)
-        function updateSearchResults(searchTerm) {
-            const currentPage = window.location.pathname.split('/').pop();
-            const isOnSearchPage = currentPage === 'search.html';
-
-            if (searchTerm === '') {
-                // Redirect to the correct previous page
-                if (isOnSearchPage) {
-                    // If on search.html, redirect to the last list page visited
-                    const lastVisitedListPage = localStorage.getItem('lastListPage') || 'index.html'; // Default to index.html
-                    window.location.href = lastVisitedListPage;
-                } else {
-                    // Go back in browser history from a non-search page
-                    window.history.back(); 
-                }
-            } else {
-                // Update the URL with the search term
-                const queryParams = new URLSearchParams({ q: searchTerm });
-                const newURL = `${window.location.origin}${window.location.pathname}?${queryParams.toString()}`;
-                window.history.pushState({}, '', newURL); 
-
-                // Store the current page as the 'last visited' before search
-                localStorage.setItem('lastListPage', currentPage); 
-
-                // Logic to fetch/display results and handle redirection
-                if (isOnSearchPage) {
-                    // Update results on search.html
-                    resultsContainer.innerHTML = ''; // Clear old results
-
-                    // Fetch and display results on 'search.html'
-                    const filteredLinks = allLinks.filter(link => 
-                        link.title.toLowerCase().includes(searchTerm.toLowerCase()) 
-                    );
-
-                    if (filteredLinks.length === 0) {
-                        resultsContainer.textContent = 'No results found.';
-                    } else {
-                        filteredLinks.forEach(link => {
-                            const resultItem = document.createElement('a');
-                            resultItem.href = link.url;
-                            resultItem.textContent = link.title;
-                            resultsContainer.appendChild(resultItem); 
-                        });
-                    }
-
-                } else {
-                    // Redirect to search.html with search term (after 2-second delay)
-                    setTimeout(() => {
-                        window.location.href = `search.html?${queryParams.toString()}`;
-                    }, 2000); 
-                }
-            }
-        }
-
-        // Event listener for search bar input
-        searchBars.forEach(searchBar => {
-            searchBar.addEventListener('input', (event) => {
-                const searchTerm = event.target.value; 
-                updateSearchResults(searchTerm); 
-            });
-        });
-
-        // Event listener for back/forward button (URL changes)
-        window.addEventListener('popstate', () => {
-            const queryParams = new URLSearchParams(window.location.search);
-            const searchTerm = queryParams.get('q');
-            updateSearchResults(searchTerm);
-        });
-
-        // Initial search (if needed, likely for your 'search.html' page)
-        const initialSearchParams = new URLSearchParams(window.location.search);
-        const initialSearchTerm = initialSearchParams.get('q');
-        if (initialSearchTerm) {
-            updateSearchResults(initialSearchTerm);
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-        // Handle error, e.g., display an error message on the relevant pages 
-    });
-
 document.addEventListener('DOMContentLoaded', function() {
-  // Select all clickable elements (adjust the selector as needed)
-  const clickableElements = document.querySelectorAll('a, button');
+  const searchBar = document.getElementById('search-bar');
+  const resultsContainer = document.getElementById('search-results');
+  const itemsPerPage = 15;
+  let allLinks = [];
 
-  clickableElements.forEach(element => {
+  // Fetch and process links
+  fetch('all_links.json')
+    .then(response => response.json())
+    .then(data => {
+      allLinks = data;
+      setupPagination();
+      handleSearch();
+    })
+    .catch(error => console.error('Error loading links:', error));
+
+  // Setup pagination
+  function setupPagination() {
+    const totalPages = Math.ceil(allLinks.length / itemsPerPage);
+    const paginationContainer = document.querySelector('.pagination');
+    if (!paginationContainer) return;
+
+    paginationContainer.innerHTML = '';
+    for (let i = 1; i <= totalPages; i++) {
+      const link = document.createElement('a');
+      link.href = i === 1 ? 'index.html' : `page${i}.html`;
+      link.textContent = i;
+      if (window.location.pathname.endsWith(link.href)) {
+        link.classList.add('active');
+      }
+      paginationContainer.appendChild(link);
+    }
+  }
+
+  // Handle search functionality
+  function handleSearch() {
+    if (!searchBar) return;
+
+    searchBar.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const filteredLinks = allLinks.filter(link => 
+        link.title.toLowerCase().includes(searchTerm)
+      );
+
+      displaySearchResults(filteredLinks);
+    });
+  }
+
+  function displaySearchResults(results) {
+    if (!resultsContainer) return;
+
+    resultsContainer.innerHTML = '';
+    if (results.length === 0) {
+      resultsContainer.innerHTML = '<p>No results found</p>';
+      return;
+    }
+
+    results.forEach(link => {
+      const a = document.createElement('a');
+      a.href = link.url;
+      a.textContent = link.title;
+      a.target = '_blank';
+      resultsContainer.appendChild(a);
+    });
+  }
+
+  // Add click animation
+  document.querySelectorAll('a').forEach(element => {
     element.addEventListener('click', function() {
-      // Add the animation class
       this.classList.add('animate-on-click');
-
-      // Listen for the end of the animation and then remove the class
       this.addEventListener('animationend', () => {
         this.classList.remove('animate-on-click');
-      }, { once: true }); // The { once: true } option auto-removes the event listener after it's called once
+      }, { once: true });
     });
   });
 });

@@ -1,133 +1,151 @@
 body {
-font-family: 'Roboto', sans-serif;
-background-color: #e6f2ff;
-text-align: center;
-padding: 20px;
-margin: 0;
-height: 100vh;
-background-attachment: fixed;
+  font-family: 'Roboto', sans-serif;
+  background-color: #e6f2ff;
+  text-align: center;
+  padding: 20px;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
-background-color: #0099ff;
-color: white;
-padding: 15px;
-font-size: 28px;
-font-weight: bold;
-margin-bottom: 30px;
-animation: slideInDown 1s ease;
-border-radius: 10px;
+  background-color: #0099ff;
+  color: white;
+  padding: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  animation: slideInDown 1s ease;
+  border-radius: 10px;
 }
+
+main {
+  flex: 1;
+  margin-bottom: 30px;
+}
+
 @keyframes slideInDown {
-0% {
+  0% {
     transform: translateY(-100%);
     opacity: 0;
-}
-100% {
+  }
+  100% {
     transform: translateY(0);
     opacity: 1;
-}
+  }
 }
 
 footer {
-background-color: #0099ff;
-color: white;
-text-align: center;
-padding: 15px;
-animation: slideInUp 1s ease;
+  background-color: #0099ff;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  animation: slideInUp 1s ease;
+  margin-top: auto;
 }
 
 @keyframes slideInUp {
-0% {
+  0% {
     transform: translateY(100%);
     opacity: 0;
-}
-100% {
+  }
+  100% {
     transform: translateY(0);
     opacity: 1;
-}
+  }
 }
 
 a {
-text-decoration: none;
+  display: block;
+  margin-bottom: 15px;
+  padding: 12px 18px;
+  background-color: #0099ff;
+  color: white;
+  border-radius: 5px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-a.div1 {
-background-color: #fff0cc;
-border: #f7ca18;
-color: white;
-padding: 15px 32px;
-text-decoration: underline;
-display: inline-block;
-font-size: 16px;
+a:hover {
+  background-color: #3498db;
+  transform: scale(1.01);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-a:not(.div1) {
-display: block;
-margin-bottom: 15px;
-padding: 12px 18px;
-background-color: #0099ff;
-color: white;
-border-radius: 5px;
-font-size: 16px;
-transition: background-color 0.3s;
-}
-
-a:not(.div1):hover {
-background-color: #3498db;
-transform: scale(1.01);
+.pagination {
+  margin: 30px 0;
 }
 
 .pagination a {
-display: inline-block;
-padding: 8px 16px;
-background-color: #f7ca18;
-color: white;
-border-radius: 5px;
-margin: 0 5px;
-text-decoration: none;
-transition: background-color 0.3s;
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #f7ca18;
+  margin: 0 5px;
+  min-width: 40px;
 }
 
 .pagination a:hover {
-background-color: #ffdd88;
-transform: translateY(-3px);
+  background-color: #ffdd88;
+  transform: translateY(-3px);
+}
+
+.pagination a.active {
+  background-color: #e67e22;
+  transform: scale(1.1);
 }
 
 #search-bar {
-width: 50%;
-padding: 12px;
-font-size: 16px;
-border: 2px solid #ccc;
-border-radius: 6px;
-margin-bottom: 15px;
+  width: 50%;
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+#search-bar:focus {
+  outline: none;
+  border-color: #0099ff;
+  box-shadow: 0 0 5px rgba(0,153,255,0.5);
 }
 
 @media (max-width: 600px) {
-#search-bar {
+  #search-bar {
     width: 80%;
-}
+  }
+  
+  .pagination a {
+    padding: 6px 12px;
+    margin: 0 2px;
+    min-width: 30px;
+  }
 }
 
-nav.header-nav a.nav-link-alt {
-background-color: #5eb3eb !important;
-color: black !important;
-padding: 10px 5px !important;
-text-decoration: none !important;
-border-radius: 5px !important;
-transition: background-color 0.3s !important;
+.search-container {
+  margin-bottom: 30px;
 }
+
+#search-results {
+  margin-top: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 0 20px;
+}
+
+#search-results p {
+  color: #666;
+  font-style: italic;
+}
+
 @keyframes clickEffect {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(0.95);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
 .animate-on-click {
-    animation: clickEffect 0.4s ease;
-  }
+  animation: clickEffect 0.4s ease;
+}
