@@ -1,0 +1,54 @@
+{
+  "links": [
+    {
+      "title": "One step SDXL",
+      "url": "https://example.com/one-step-sdxl"
+    },
+    {
+      "title": "Llama3 vs Phi 3",
+      "url": "https://example.com/llama-vs-phi"
+    },
+    {
+      "title": "AI Minecraft skin generator",
+      "url": "https://example.com/minecraft-skin-generator"
+    },
+    {
+      "title": "Upside Down Diffusion",
+      "url": "https://example.com/upside-down-diffusion"
+    },
+    {
+      "title": "Diffuse Craft",
+      "url": "https://example.com/diffusecraft"
+    },
+    {
+      "title": "Live Portrait",
+      "url": "https://example.com/live-portrait"
+    },
+    {
+      "title": "360 image generator",
+      "url": "https://example.com/360-image-generator"
+    },
+    {
+      "title": "UI Generator using Gemini",
+      "url": "https://example.com/ui-generator-gemini"
+    }
+  ],
+  "prompts": [
+    {
+      "title": "Futuristic cityscape",
+      "prompt": "Imagine a futuristic city with advanced technology and unique architecture."
+    },
+    {
+      "title": "Medieval village",
+      "prompt": "Design a medieval village with small houses, cobblestone streets, and a marketplace."
+    },
+    {
+      "title": "Underwater scene",
+      "prompt": "Visualize an underwater scene with coral reefs and various marine life."
+    },
+    {
+      "title": "Steampunk workshop",
+      "prompt": "Create a steampunk workshop filled with gears and old-fashioned machinery."
+    }
+  ]
+}

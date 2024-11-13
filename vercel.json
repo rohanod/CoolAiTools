@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "generate-pages-vercel.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
+    }
+  ],
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": "./public",
+  "installCommand": "npm install",
+  "framework": "other",
+  "rootDirectory": "./"
+}

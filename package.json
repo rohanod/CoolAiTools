@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node generate-pages-local.js",
-    "build": "node generate-pages-github.js"
+    "dev": "node generate-pages-local.js",
+    "build": "node generate-pages-vercel.js",
+    "vercel-build": "node generate-pages-vercel.js"
   }
 }

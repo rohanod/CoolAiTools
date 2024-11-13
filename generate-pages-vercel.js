@@ -1,12 +1,16 @@
 const fs = require('fs');
-const createServer = require('./server');
+const http = require('http');
+const path = require('path');
 
 const links = JSON.parse(fs.readFileSync('all_links.json', 'utf8'));
 const otherStuff = JSON.parse(fs.readFileSync('other_stuff.json', 'utf8'));
 const itemsPerPage = 15;
 const totalPages = Math.ceil(links.length / itemsPerPage);
-const generatedFiles = [];
 const port = 80;
+
+if (!fs.existsSync('public')) {
+  fs.mkdirSync('public');
+}
 
 function generatePages() {
   for (let i = 1; i <= totalPages; i++) {
@@ -48,8 +52,7 @@ ${linksHtml}
 </html>`;
 
     const filename = i === 1 ? 'index.html' : `page${i}.html`;
-    fs.writeFileSync(filename, pageHtml);
-    generatedFiles.push(filename);
+    fs.writeFileSync(`public/${filename}`, pageHtml);
   }
 
   const otherStuffHtml = `<!DOCTYPE html>
@@ -89,8 +92,7 @@ ${linksHtml}
 </body>
 </html>`;
 
-  fs.writeFileSync('other_stuff.html', otherStuffHtml);
-  generatedFiles.push('other_stuff.html');
+  fs.writeFileSync('public/other_stuff.html', otherStuffHtml);
 
   const searchHtml = `<!DOCTYPE html>
 <html lang="en">
@@ -116,8 +118,7 @@ ${linksHtml}
 </body>
 </html>`;
 
-  fs.writeFileSync('search.html', searchHtml);
-  generatedFiles.push('search.html');
+  fs.writeFileSync('public/search.html', searchHtml);
 
   const allLinksHtml = links.map(link => 
     `    <a href="${link.url}" target="_blank">${link.title}</a>`
@@ -151,25 +152,45 @@ ${allLinksHtml}
 </body>
 </html>`;
 
-  fs.writeFileSync('links.html', linksPageHtml);
-  generatedFiles.push('links.html');
-}
+  fs.writeFileSync('public/links.html', linksPageHtml);
 
-function cleanup() {
-  generatedFiles.forEach(file => {
-    try {
-      fs.unlinkSync(file);
-    } catch (err) {
-      console.error(`Error removing ${file}:`, err);
-    }
-  });
-  process.exit(0);
+  fs.copyFileSync('style.css', 'public/style.css');
+  fs.copyFileSync('script.js', 'public/script.js');
+  fs.copyFileSync('all_links.json', 'public/all_links.json');
+  fs.copyFileSync('other_stuff.json', 'public/other_stuff.json');
 }
-
-process.on('SIGINT', cleanup);
-process.on('SIGTERM', cleanup);
-process.on('exit', cleanup);
 
 generatePages();
 
-const server = createServer(port);
+const server = http.createServer((req, res) => {
+  let filePath = './public' + req.url;
+  if (filePath === './public/') filePath = './public/index.html';
+
+  const extname = path.extname(filePath);
+  const contentTypes = {
+    '.html': 'text/html',
+    '.js': 'text/javascript',
+    '.css': 'text/css',
+    '.json': 'application/json'
+  };
+  const contentType = contentTypes[extname] || 'text/html';
+
+  fs.readFile(filePath, (error, content) => {
+    if (error) {
+      if (error.code === 'ENOENT') {
+        res.writeHead(404);
+        res.end('404 Not Found');
+      } else {
+        res.writeHead(500);
+        res.end('500 Internal Server Error');
+      }
+    } else {
+      res.writeHead(200, { 'Content-Type': contentType });
+      res.end(content, 'utf-8');
+    }
+  });
+});
+
+server.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
+});

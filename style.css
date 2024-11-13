@@ -25,6 +25,41 @@ main {
   margin-bottom: 30px;
 }
 
+.links-section,
+.prompts-section {
+  margin: 30px auto;
+  max-width: 800px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.prompt-card {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  text-align: left;
+  transition: transform 0.2s ease;
+}
+
+.prompt-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.prompt-card h3 {
+  color: #0099ff;
+  margin: 0 0 10px 0;
+}
+
+.prompt-card p {
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
 @keyframes slideInDown {
   0% {
     transform: translateY(-100%);
