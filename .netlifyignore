@@ -1,0 +1,13 @@
+# Dependencies
+node_modules
+venv
+
+# Development files
+*.log
+.DS_Store
+.env
+.env.*
+
+# Source files (since we build to dist)
+src/
+*.py

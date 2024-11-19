@@ -4,11 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node generate-pages-local.js && node server.js",
-    "build": "node -e \"import('./check-spaces.js').then(m => m.checkAllSpaces())\" && node generate-pages-netlify.js && vite build",
-    "start": "node generate-pages-local.js && node server.js",
-    "cleanup": "node -e \"import('./cleanup.js').then(m => m.cleanup())\"",
-    "check-spaces": "node -e \"import('./check-spaces.js').then(m => m.checkAllSpaces())\""
+    "dev": "vite",
+    "build": "node generate-pages-netlify.js && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "node-fetch": "^3.3.2",

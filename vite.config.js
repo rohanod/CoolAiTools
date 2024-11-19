@@ -2,24 +2,21 @@ import { defineConfig } from 'vite';
 import fs from 'fs';
 import path from 'path';
 
-// Dynamically find all HTML files in the public directory
-const htmlFiles = fs.readdirSync('public')
+const htmlFiles = fs.readdirSync('.')
   .filter(file => file.endsWith('.html'))
   .reduce((acc, file) => ({
     ...acc,
-    [path.parse(file).name]: `public/${file}`
+    [path.parse(file).name]: file
   }), {});
 
 export default defineConfig({
-  root: 'public',
   build: {
-    outDir: '../dist',
+    outDir: 'public',
     emptyOutDir: true,
     rollupOptions: {
       input: htmlFiles
     }
   },
-  publicDir: '../public',
   base: '/',
   server: {
     port: 3000,

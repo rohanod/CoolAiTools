@@ -15,24 +15,16 @@ class NetlifyPageGenerator extends PageGenerator {
     writeFile(filename, content) {
         const filepath = path.join(publicDir, filename);
         fs.writeFileSync(filepath, content);
-        console.log(`Generated ${filename} in public directory`);
     }
 }
 
 const generator = new NetlifyPageGenerator(links);
 generator.generateMainPages();
 
-// Copy static files to public directory
-const staticFiles = ['style.css', 'script.js', 'all_links.json', 'space_status.json'];
+const staticFiles = ['style.css', 'script.js', 'all_links.json', 'space_status.json', 'favicon.ico', 'favicon-16x16.png', 'favicon-32x32.png', 'android-chrome-192x192.png', 'android-chrome-512x512.png', 'apple-touch-icon.png', 'site.webmanifest'];
+
 staticFiles.forEach(file => {
-    try {
+    if (fs.existsSync(file)) {
         fs.copyFileSync(file, path.join(publicDir, file));
-        console.log(`Copied ${file} to public directory`);
-    } catch (error) {
-        console.error(`Error copying ${file}:`, error);
     }
 });
-
-// Create favicon.ico
-const faviconContent = Buffer.from('0000010001002020100001000400E80200001600000028000000200000004000000001000400000000008002000000000000000000000000000000000000000000000000800000800080008080000080000080008000808000007F7F7F00BFBFBF00000000', 'hex');
-fs.writeFileSync(path.join(publicDir, 'favicon.ico'), faviconContent);
