@@ -1,42 +1,67 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+import express from 'express';
+import compression from 'compression';
+import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { checkAllSpaces } from './check-spaces.js';
+import { cleanup } from './cleanup.js';
 
-function createServer(port) {
-  const server = http.createServer((req, res) => {
-    let filePath = path.join('./', req.url === '/' ? 'index.html' : req.url);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const STATUS_FILE = 'space_status.json';
+const CACHE_DURATION = 3 * 24 * 60 * 60 * 1000;
+const port = 3000;
 
-    const extname = path.extname(filePath);
-    const contentTypes = {
-      '.html': 'text/html',
-      '.js': 'text/javascript',
-      '.css': 'text/css',
-      '.json': 'application/json'
-    };
-    const contentType = contentTypes[extname] || 'text/html';
+const app = express();
+app.use(compression());
 
-    fs.readFile(filePath, (error, content) => {
-      if (error) {
-        if (error.code === 'ENOENT') {
-          res.writeHead(404);
-          res.end('404 Not Found');
-        } else {
-          res.writeHead(500);
-          res.end('500 Internal Server Error');
+async function getSpaceStatus() {
+    try {
+        if (!fs.existsSync(STATUS_FILE)) {
+            await checkAllSpaces();
+            return JSON.parse(fs.readFileSync(STATUS_FILE, 'utf8'));
         }
-      } else {
-        res.writeHead(200, { 'Content-Type': contentType });
-        res.end(content, 'utf-8');
-      }
-    });
-  });
 
-  server.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}/`);
-    console.log('Press Ctrl+C to stop the server and clean up generated files');
-  });
+        const stats = fs.statSync(STATUS_FILE);
+        const age = Date.now() - stats.mtimeMs;
 
-  return server;
+        if (age > CACHE_DURATION) {
+            await checkAllSpaces();
+            return JSON.parse(fs.readFileSync(STATUS_FILE, 'utf8'));
+        }
+
+        return JSON.parse(fs.readFileSync(STATUS_FILE, 'utf8'));
+    } catch (error) {
+        return {};
+    }
 }
 
-module.exports = createServer;
+app.get('/space_status.json', async (req, res) => {
+    const status = await getSpaceStatus();
+    res.json(status);
+});
+
+app.use(express.static('.'));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+let isShuttingDown = false;
+
+async function handleShutdown() {
+    if (isShuttingDown) return;
+    isShuttingDown = true;
+    
+    console.log('\nShutting down server...');
+    await cleanup();
+    process.exit(0);
+}
+
+process.on('SIGINT', handleShutdown);
+process.on('SIGTERM', handleShutdown);
+process.on('SIGHUP', handleShutdown);
+
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}/`);
+});

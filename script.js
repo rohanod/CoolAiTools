@@ -1,76 +1,136 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const searchBar = document.getElementById('search-bar');
-  const resultsContainer = document.getElementById('search-results');
-  const itemsPerPage = 15;
-  let allLinks = [];
+    let spaceStatus = {};
+    let searchData = [];
+    let currentMainContent = '';
+    let isSearchPage = window.location.pathname.endsWith('search.html');
 
-  // Fetch and process links
-  fetch('all_links.json')
-    .then(response => response.json())
-    .then(data => {
-      allLinks = data;
-      setupPagination();
-      handleSearch();
-    })
-    .catch(error => console.error('Error loading links:', error));
-
-  // Setup pagination
-  function setupPagination() {
-    const totalPages = Math.ceil(allLinks.length / itemsPerPage);
-    const paginationContainer = document.querySelector('.pagination');
-    if (!paginationContainer) return;
-
-    paginationContainer.innerHTML = '';
-    for (let i = 1; i <= totalPages; i++) {
-      const link = document.createElement('a');
-      link.href = i === 1 ? 'index.html' : `page${i}.html`;
-      link.textContent = i;
-      if (window.location.pathname.endsWith(link.href)) {
-        link.classList.add('active');
-      }
-      paginationContainer.appendChild(link);
-    }
-  }
-
-  // Handle search functionality
-  function handleSearch() {
-    if (!searchBar) return;
-
-    searchBar.addEventListener('input', (e) => {
-      const searchTerm = e.target.value.toLowerCase();
-      const filteredLinks = allLinks.filter(link => 
-        link.title.toLowerCase().includes(searchTerm)
-      );
-
-      displaySearchResults(filteredLinks);
-    });
-  }
-
-  function displaySearchResults(results) {
-    if (!resultsContainer) return;
-
-    resultsContainer.innerHTML = '';
-    if (results.length === 0) {
-      resultsContainer.innerHTML = '<p>No results found</p>';
-      return;
+    async function loadData() {
+        try {
+            const [statusResponse, linksResponse] = await Promise.all([
+                fetch('space_status.json'),
+                fetch('all_links.json')
+            ]);
+            spaceStatus = await statusResponse.json();
+            searchData = await linksResponse.json();
+        } catch (e) {
+            console.error('Failed to load data:', e);
+        }
     }
 
-    results.forEach(link => {
-      const a = document.createElement('a');
-      a.href = link.url;
-      a.textContent = link.title;
-      a.target = '_blank';
-      resultsContainer.appendChild(a);
-    });
-  }
+    function updateMainContent() {
+        const mainContent = document.querySelector('.main-content');
+        if (!mainContent) return;
+        
+        if (!currentMainContent) {
+            currentMainContent = mainContent.innerHTML;
+        }
+        
+        const links = mainContent.querySelectorAll('a[href*="hf.space"]');
+        links.forEach(link => {
+            const status = spaceStatus[link.href]?.status;
+            if (status && status !== "is-working") {
+                if (!link.querySelector('.error-label')) {
+                    const errorLabel = document.createElement('span');
+                    errorLabel.className = 'error-label';
+                    errorLabel.textContent = status === "non-working" ? 'NOT WORKING' : 'ERROR';
+                    link.appendChild(errorLabel);
+                }
+            }
+        });
+    }
 
-  // Add click animation
-  document.querySelectorAll('a').forEach(element => {
-    element.addEventListener('click', function() {
-      this.classList.add('animate-on-click');
-      this.addEventListener('animationend', () => {
-        this.classList.remove('animate-on-click');
-      }, { once: true });
-    });
-  });
+    function searchTools(query) {
+        if (!query) return [];
+        
+        query = query.toLowerCase();
+        const results = searchData
+            .map(item => {
+                const titleScore = item.title.toLowerCase().includes(query) ? 2 : 0;
+                const urlScore = item.url.toLowerCase().includes(query) ? 1 : 0;
+                return {
+                    ...item,
+                    score: titleScore + urlScore
+                };
+            })
+            .filter(item => {
+                const status = spaceStatus[item.url]?.status;
+                return item.score > 0 && status !== "404";
+            })
+            .sort((a, b) => b.score - a.score);
+
+        return results;
+    }
+
+    function displaySearchResults(results, query) {
+        const searchResults = document.getElementById('search-results');
+        const mainContent = document.querySelector('.main-content');
+        const searchInstructions = document.querySelector('.search-instructions');
+        
+        if (!searchResults || !mainContent) return;
+
+        if (!query) {
+            searchResults.style.display = 'none';
+            if (!isSearchPage) {
+                mainContent.style.display = 'block';
+                mainContent.innerHTML = currentMainContent;
+                updateMainContent();
+            } else {
+                mainContent.style.display = 'none';
+                if (searchInstructions) {
+                    searchInstructions.style.display = 'block';
+                }
+            }
+            return;
+        }
+
+        if (!results.length) {
+            searchResults.style.display = 'block';
+            searchResults.innerHTML = '<p class="no-results">No results found</p>';
+            mainContent.style.display = 'none';
+            if (searchInstructions) {
+                searchInstructions.style.display = 'none';
+            }
+            return;
+        }
+
+        const resultsHtml = results
+            .map(item => {
+                const status = spaceStatus[item.url]?.status;
+                const isWorking = status === "is-working";
+                return `
+                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="search-result">
+                        <span class="result-title">${item.title}</span>
+                        ${!isWorking ? '<span class="error-label">NOT WORKING</span>' : ''}
+                    </a>
+                `;
+            })
+            .join('');
+
+        searchResults.style.display = 'block';
+        searchResults.innerHTML = resultsHtml;
+        mainContent.style.display = 'none';
+        if (searchInstructions) {
+            searchInstructions.style.display = 'none';
+        }
+    }
+
+    const searchBar = document.getElementById('search-bar');
+    if (searchBar) {
+        let debounceTimeout;
+        searchBar.addEventListener('input', (e) => {
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(() => {
+                const query = e.target.value.trim();
+                const results = query ? searchTools(query) : [];
+                displaySearchResults(results, query);
+            }, 1000);
+        });
+    }
+
+    async function init() {
+        await loadData();
+        updateMainContent();
+    }
+
+    init();
 });

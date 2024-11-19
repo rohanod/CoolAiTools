@@ -26,4 +26,9 @@ dist-ssr
 
 # HTML files
 index.html
+links.html
+search.html
 page*.html
+
+# Virtual Envs
+venv
