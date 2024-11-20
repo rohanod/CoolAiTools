@@ -14,12 +14,36 @@ export default defineConfig({
     outDir: 'public',
     emptyOutDir: true,
     rollupOptions: {
-      input: htmlFiles
-    }
+      input: htmlFiles,
+      output: {
+        manualChunks: {
+          vendor: ['node-fetch']
+        },
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash][extname]'
+      }
+    },
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.trace']
+      }
+    },
+    reportCompressedSize: false,
+    cssCodeSplit: false,
+    assetsInlineLimit: 4096,
+    sourcemap: false
   },
   base: '/',
   server: {
     port: 3000,
-    host: true
+    host: true,
+    strictPort: true,
+    hmr: {
+      overlay: false
+    }
   }
 });

@@ -1,13 +1,8 @@
-# Dependencies
-node_modules
-venv
-
-# Development files
-*.log
+node_modules/
+.git/
+.gitignore
 .DS_Store
+*.log
 .env
-.env.*
-
-# Source files (since we build to dist)
-src/
-*.py
+.vscode/
+.idea/
