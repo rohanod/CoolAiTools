@@ -1,32 +1,24 @@
 import { defineConfig } from 'vite';
-import fs from 'fs';
-import path from 'path';
-
-const htmlFiles = fs.readdirSync('.')
-  .filter(file => file.endsWith('.html'))
-  .reduce((acc, file) => ({
-    ...acc,
-    [path.parse(file).name]: file
-  }), {});
 
 export default defineConfig({
   build: {
     outDir: 'public',
     emptyOutDir: true,
     rollupOptions: {
-      input: htmlFiles,
-      output: {
-        chunkFileNames: 'assets/[name].[hash].js',
-        entryFileNames: 'assets/[name].[hash].js',
-        assetFileNames: 'assets/[name].[hash][extname]'
+      input: {
+        main: 'index.html',
+        search: 'search.html',
+        style: 'style.css',
+        script: 'script.js',
+        links: 'all_links.json',
+        status: 'space_status.json',
+        manifest: 'site.webmanifest'
       }
     },
     minify: true,
-    sourcemap: false
+    sourcemap: false,
+    assetsDir: 'assets'
   },
   base: '/',
-  server: {
-    port: 3000,
-    host: true
-  }
+  publicDir: 'public'
 });
